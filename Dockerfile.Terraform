@@ -1,0 +1,10 @@
+# So we can get the latest Terraform binary
+FROM hashicorp/terraform:light AS builder
+ENTRYPOINT ["terraform"]
+
+FROM python:3.8
+RUN apt-get update
+RUN apt-get install python3-pip pylint -y
+COPY --from=builder /bin/terraform /usr/local/bin
+ENTRYPOINT ["terraform"]
+
